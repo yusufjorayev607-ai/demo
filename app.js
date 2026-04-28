@@ -182,8 +182,3 @@ module.exports = {
 // ============================================================
 npm run dev
 
-// ============================================================
-// 13-QADAM: Production build — kerak bo'lganda terminalga yoz
-// /public/ papkasida tayyor fayllar paydo bo'ladi
-// ============================================================
-npm run build
