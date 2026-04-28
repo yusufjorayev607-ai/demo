@@ -1,25 +1,25 @@
-// ============================================================
-// 1-QADAM: package.json yaratish — terminalga yoz
-// ============================================================
+// -------------------------------------------------------
+// 1-QADAM: package.json yaratish
+// -------------------------------------------------------
 npm init -y
 
-// ============================================================
-// 2-QADAM: Webpack o'rnatish — terminalga yoz
-// ============================================================
+// -------------------------------------------------------
+// 2-QADAM: Webpack o'rnatish
+// -------------------------------------------------------
 npm install --save-dev webpack webpack-cli webpack-dev-server
 
-// ============================================================
-// 3-QADAM: Pluginlar o'rnatish — terminalga yoz
-// ============================================================
+// -------------------------------------------------------
+// 3-QADAM: Pluginlar o'rnatish
+// -------------------------------------------------------
 npm install --save-dev html-webpack-plugin mini-css-extract-plugin css-loader
 
-// ============================================================
-// 4-QADAM: Papka strukturasi yaratish — terminalga yoz
-// ============================================================
+// -------------------------------------------------------
+// 4-QADAM: Papka strukturasi yaratish
+// -------------------------------------------------------
 mkdir -p src/js src/css src/images
 
-// ============================================================
-// 5-QADAM: VSCode chap panelda quyidagi fayllarni yarating
+// -------------------------------------------------------
+// 5-QADAM: VSCode chap panelda fayllarni yarating
 // src/
 // ├── js/
 // │   ├── main.js
@@ -28,24 +28,24 @@ mkdir -p src/js src/css src/images
 // │   └── style.css
 // ├── indextemp.html
 // └── abauttemp.html
-// webpack.config.js  ← src dan TASHQARIDA, asosiy papkada
-// ============================================================
+// webpack.config.js  ← src dan TASHQARIDA
+// -------------------------------------------------------
 
-// ============================================================
-// 6-QADAM: src/js/main.js ichiga yozing
-// ============================================================
+// -------------------------------------------------------
+// 6-QADAM: src/js/main.js
+// -------------------------------------------------------
 import '../css/style.css'
 console.log('Main ishlayapti')
 
-// ============================================================
-// 7-QADAM: src/js/abaut.js ichiga yozing
-// ============================================================
+// -------------------------------------------------------
+// 7-QADAM: src/js/abaut.js
+// -------------------------------------------------------
 import '../css/style.css'
 console.log('About ishlayapti')
 
-// ============================================================
-// 8-QADAM: src/indextemp.html ichiga yozing
-// ============================================================
+// -------------------------------------------------------
+// 8-QADAM: src/indextemp.html
+// -------------------------------------------------------
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -58,9 +58,9 @@ console.log('About ishlayapti')
 </body>
 </html>
 
-// ============================================================
-// 9-QADAM: src/abauttemp.html ichiga yozing
-// ============================================================
+// -------------------------------------------------------
+// 9-QADAM: src/abauttemp.html
+// -------------------------------------------------------
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -73,9 +73,9 @@ console.log('About ishlayapti')
 </body>
 </html>
 
-// ============================================================
-// 10-QADAM: webpack.config.js ichiga yozing — asosiy papkada
-// ============================================================
+// -------------------------------------------------------
+// 10-QADAM: webpack.config.js
+// -------------------------------------------------------
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -91,7 +91,6 @@ module.exports = {
     about: path.resolve(__dirname, 'src/js/abaut.js')  // about.html uchun
   },
 
-  // chiqish: build fayllar /public/ papkasiga yoziladi
   // [name] = entry dagi kalit nomi (main, about)
   // [contenthash] = fayl o'zgarganda brauzer keshini yangilaydi
   // clean: true = har build oldidan /public/ ni tozalaydi
@@ -101,7 +100,6 @@ module.exports = {
     clean: true
   },
 
-  // lokal server sozlamalari — npm run dev da ishlaydi
   // port: 3000 = http://localhost:3000
   // open: true = brauzer avtomatik ochiladi
   // hot: true = sahifa yangilanmasdan o'zgarishlar ko'rinadi
@@ -120,14 +118,13 @@ module.exports = {
 
   module: {
     rules: [
-      // CSS loader: CSS fayllarni o'qiydi va alohida faylga chiqaradi
       // css-loader = @import va url() ni hal qiladi
       // MiniCssExtractPlugin.loader = CSS ni JS dan ajratib .css faylga yozadi
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
-      // Rasm loader: png, jpg, svg kabi fayllarni /public/images/ ga ko'chiradi
+      // Rasm loader: png, jpg, svg fayllarni /public/images/ ga ko'chiradi
       {
         test: /\.(png|jpg|jpeg|gif|svg|ico)$/i,
         type: 'asset/resource',
@@ -139,7 +136,6 @@ module.exports = {
   },
 
   plugins: [
-    // Bosh sahifa uchun HTML yaratadi
     // template = shablon fayl, filename = /public/ ga yoziladigan fayl
     // chunks: ['main'] = faqat main.js ulanadi
     new HtmlWebpackPlugin({
@@ -149,7 +145,6 @@ module.exports = {
       chunks: ['main']
     }),
 
-    // About sahifasi uchun HTML yaratadi
     // chunks: ['about'] = faqat about.js ulanadi, main.js emas
     new HtmlWebpackPlugin({
       title: 'Countries | About',
@@ -158,27 +153,29 @@ module.exports = {
       chunks: ['about']
     }),
 
-    // Barcha CSS larni JS dan ajratib alohida .css faylga yozadi
-    // [contenthash] = fayl o'zgarganda brauzer keshini yangilaydi
+    // CSS larni JS dan ajratib alohida .css faylga yozadi
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
   ]
 }
 
-// ============================================================
-// 11-QADAM: package.json dagi "scripts" ni o'zgartiring
-// "dev" = serverni ishga tushiradi, o'zgarishlarni kuzatadi
-// "build" = /public/ papkasiga tayyor fayllar yozadi
-// ============================================================
+// -------------------------------------------------------
+// 11-QADAM: package.json — "scripts" ni o'zgartiring
+// dev = serverni ishga tushiradi
+// build = /public/ ga tayyor fayllar yozadi
+// -------------------------------------------------------
 "scripts": {
   "dev": "webpack serve --config webpack.config.js",
   "build": "webpack --config webpack.config.js"
 },
 
-// ============================================================
-// 12-QADAM: Serverni ishga tushiring — terminalga yoz
-// Brauzer avtomatik ochiladi → http://localhost:3000
-// ============================================================
+// -------------------------------------------------------
+// 12-QADAM: Serverni ishga tushirish
+// -------------------------------------------------------
 npm run dev
 
+// -------------------------------------------------------
+// 13-QADAM: Production build
+// -------------------------------------------------------
+npm run build
